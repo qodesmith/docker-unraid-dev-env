@@ -1,0 +1,76 @@
+{
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "never"
+  },
+  "editor.codeLens": false,
+  "editor.linkedEditing": true,
+  "editor.formatOnSave": true,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.rulers": [80],
+  "editor.inlineSuggest.enabled": true,
+  "editor.stickyScroll.enabled": true,
+
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  "workbench.colorTheme": "Outrun Night Meets Synthwave",
+  "workbench.tree.indent": 13,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.tree.enableStickyScroll": true,
+
+  "window.title": "${activeEditorMedium}${separator}${folderName}",
+
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+
+  "gitlens.fileAnnotations.command": "blame",
+
+  "prettier.printWidth": 80,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.quoteProps": "as-needed",
+  "prettier.jsxSingleQuote": false,
+  "prettier.trailingComma": "es5",
+  "prettier.bracketSpacing": false,
+  "prettier.arrowParens": "avoid",
+  "prettier.proseWrap": "preserve",
+  "prettier.htmlWhitespaceSensitivity": "css",
+  "prettier.endOfLine": "lf",
+  "prettier.embeddedLanguageFormatting": "auto",
+  "prettier.singleAttributePerLine": false,
+  "prettier.enableDebugLogs": true,
+
+  "projectManager.any.baseFolders": ["/repos"],
+  "projectManager.any.ignoredFolders": ["node_modules", "typings", "out"],
+  "projectManager.any.maxDepthRecursion": 1,
+  "projectManager.showProjectNameInStatusBar": true,
+  "projectManager.sortList": "Name",
+
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "javascript.format.semicolons": "remove",
+  "javascript.preferences.quoteStyle": "single",
+  "javascript.preferGoToSourceDefinition": true,
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.suggest.completeJSDocs": false,
+  "javascript.suggest.jsdoc.generateReturns": false,
+
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "typescript.format.semicolons": "remove",
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.preferGoToSourceDefinition": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.suggest.completeJSDocs": false,
+  "typescript.suggest.jsdoc.generateReturns": false,
+  "typescript.surveys.enabled": false,
+  "typescript.tsserver.maxTsServerMemory": 4096,
+
+  "eslint.codeActionsOnSave.rules": null,
+  "projectManager.cacheProjectsBetweenSessions": false
+}

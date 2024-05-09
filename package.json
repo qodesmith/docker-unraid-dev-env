@@ -1,0 +1,14 @@
+{
+  "name": "docker-unraid-dev-env",
+  "scripts": {
+    "build:local": "docker build -t qodesmith/docker-unraid-dev-env:1.0.0 .",
+    "build:local:dev": "bun run buildSettingsVsix.ts && docker build -f Dockerfile.dev -t qodesmith/docker-unraid-dev-env-development:1.0.0 .",
+    "build:unraid": "docker build --platform=linux/amd64 -t qodesmith/docker-unraid-dev-env:1.0.0 ."
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

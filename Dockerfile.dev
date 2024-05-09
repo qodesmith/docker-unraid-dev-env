@@ -1,0 +1,56 @@
+# VS Code in the browser!
+FROM gitpod/openvscode-server:latest
+
+# Set the user to root so we don't have permission errors to do the things.
+USER root
+
+# Update / install system dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    unzip \
+    zsh \
+    sudo \
+    git
+
+# Bun
+ENV BUN_INSTALL=/usr/local
+RUN curl -o- -fsSL https://bun.sh/install | bash
+
+# Zsh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+ENV ZSH_DISABLE_COMPFIX="true"
+SHELL ["/bin/zsh", "-c"]
+
+# Node
+# The only reason we include Node is because the @vscode/vsce package that
+# builds the VS Code extension is hardcoded to use yarn or npm 🫠
+RUN curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+RUN apt-get install nodejs -y
+
+# Variables needed to manually build vsix extension files.
+ARG TEMP_VSCODE_DIR="/vscode-settings"
+ARG SETTINGS_PLUGIN_DIR="openvscode-server-settings"
+ARG OUTRUN_URL="https://github.com/qodesmith/outrun-meets-synthwave.git"
+ARG OUTRUN_DIR="outrun-meets-synthwave"
+ARG OPENVSCODE_SERVER_ROOT="/home/.openvscode-server"
+ARG OPENVSCODE="${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server"
+
+RUN mkdir $TEMP_VSCODE_DIR
+
+# outrun-meets-synthwave (best theme ever)
+WORKDIR $TEMP_VSCODE_DIR
+RUN git clone $OUTRUN_URL
+WORKDIR $TEMP_VSCODE_DIR/$OUTRUN_DIR
+RUN bun install
+RUN bunx @vscode/vsce package --skip-license
+RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
+
+# openvscode-server-settings (extension) - THIS MUST BE THE LAST EXTENSION!
+WORKDIR $TEMP_VSCODE_DIR
+COPY src/*.vsix $TEMP_VSCODE_DIR
+RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
+
+# Cleanup
+RUN apt-get remove nodejs -y
+RUN rm -rf $TEMP_VSCODE_DIR/*
+COPY src/settings.dev.json $TEMP_VSCODE_DIR/settings.json
