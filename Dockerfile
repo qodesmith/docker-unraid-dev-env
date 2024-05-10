@@ -4,13 +4,17 @@ FROM gitpod/openvscode-server:latest
 # Set the user to root so we don't have permission errors to do the things.
 USER root
 
+# Git
+ENV GIT_CONFIG_GLOBAL="/user/dev_setup/.gitconfig"
+
 # Update / install system dependencies
 RUN apt-get update && \
     apt-get install -y \
     unzip \
     zsh \
     sudo \
-    git
+    git \
+    delta
 
 # Bun
 ENV BUN_INSTALL=/usr/local
@@ -69,4 +73,6 @@ RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
 # Cleanup
 RUN apt-get remove nodejs -y
 RUN rm -rf $TEMP_VSCODE_DIR/*
+
+# Final setup
 COPY src/settings.json $TEMP_VSCODE_DIR

@@ -1,8 +1,8 @@
 /**
  * This script exists simply to get a locally built version of the
- * `openvscode-server-settings` plugin into the src directory in this repo so that
- * we can copy it over to the Docker container for installation. This is for
- * development purposes only. For production, the Dockerfile will clone the
+ * `openvscode-server-settings` plugin into the src directory in this repo so
+ * that we can copy it over to the Docker container for installation. This is
+ * for development purposes only. For production, the Dockerfile will clone the
  * `openvscode-server-settings` directly from Github into the container, buid
  * it, and install it from there.
  */

@@ -53,4 +53,6 @@ RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
 # Cleanup
 RUN apt-get remove nodejs -y
 RUN rm -rf $TEMP_VSCODE_DIR/*
+
+# Final setup
 COPY src/settings.dev.json $TEMP_VSCODE_DIR/settings.json
