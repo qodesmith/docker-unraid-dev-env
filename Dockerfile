@@ -14,7 +14,7 @@ RUN apt-get update && \
     zsh \
     sudo \
     git \
-    delta
+    git-delta
 
 # Bun
 ENV BUN_INSTALL=/usr/local
