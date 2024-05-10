@@ -77,10 +77,11 @@ WORKDIR $TEMP_DELTA_DIR
 RUN curl -O -fsSL https://github.com/dandavison/delta/releases/download/0.17.0/$DELTA_DEB
 RUN dpkg -i $DELTA_DEB
 
-# Cleanup
-RUN apt-get remove nodejs -y
-RUN rm -rf $TEMP_VSCODE_DIR/*
-RUN rm -rf $TEMP_DELTA_DIR
-
 # Final setup
 COPY src/settings.json $TEMP_VSCODE_DIR
+WORKDIR /user
+
+# Cleanup
+RUN apt-get remove nodejs -y
+RUN rm -rf $TEMP_VSCODE_DIR
+RUN rm -rf $TEMP_DELTA_DIR
