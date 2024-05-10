@@ -13,8 +13,7 @@ RUN apt-get update && \
     unzip \
     zsh \
     sudo \
-    git \
-    git-delta
+    git
 
 # Bun
 ENV BUN_INSTALL=/usr/local
@@ -70,9 +69,18 @@ WORKDIR $TEMP_VSCODE_DIR/$SETTINGS_PLUGIN_DIR
 RUN bun install && bun run package
 RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
 
+# Delta for git - https://github.com/dandavison/delta/releases
+ARG TEMP_DELTA_DIR="/tmp-delta"
+ARG DELTA_DEB="git-delta_0.17.0_amd64.deb"
+RUN mkdir $TEMP_DELTA_DIR
+WORKDIR $TEMP_DELTA_DIR
+RUN curl -O -fsSL https://github.com/dandavison/delta/releases/download/0.17.0/$DELTA_DEB
+RUN dpkg -i $DELTA_DEB
+
 # Cleanup
 RUN apt-get remove nodejs -y
 RUN rm -rf $TEMP_VSCODE_DIR/*
+RUN rm -rf $TEMP_DELTA_DIR
 
 # Final setup
 COPY src/settings.json $TEMP_VSCODE_DIR
