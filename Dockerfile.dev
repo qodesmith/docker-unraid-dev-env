@@ -7,6 +7,7 @@ USER root
 # Update / install system dependencies
 RUN apt-get update && \
     apt-get install -y \
+    zip \
     unzip \
     zsh \
     sudo \
@@ -28,26 +29,25 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 RUN apt-get install nodejs -y
 
 # Variables needed to manually build vsix extension files.
-ARG TEMP_VSCODE_DIR="/vscode-settings"
+ARG VSCODE_SETTINGS_DIR="/vscode-settings"
 ARG SETTINGS_PLUGIN_DIR="openvscode-server-settings"
 ARG OUTRUN_URL="https://github.com/qodesmith/outrun-meets-synthwave.git"
 ARG OUTRUN_DIR="outrun-meets-synthwave"
 ARG OPENVSCODE_SERVER_ROOT="/home/.openvscode-server"
 ARG OPENVSCODE="${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server"
 
-RUN mkdir $TEMP_VSCODE_DIR
-
 # outrun-meets-synthwave (best theme ever)
-WORKDIR $TEMP_VSCODE_DIR
+RUN mkdir $VSCODE_SETTINGS_DIR
+WORKDIR $VSCODE_SETTINGS_DIR
 RUN git clone $OUTRUN_URL
-WORKDIR $TEMP_VSCODE_DIR/$OUTRUN_DIR
+WORKDIR $VSCODE_SETTINGS_DIR/$OUTRUN_DIR
 RUN bun install
 RUN bunx @vscode/vsce package --skip-license
 RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
 
 # openvscode-server-settings (extension) - THIS MUST BE THE LAST EXTENSION!
-WORKDIR $TEMP_VSCODE_DIR
-COPY src/*.vsix $TEMP_VSCODE_DIR
+WORKDIR $VSCODE_SETTINGS_DIR
+COPY src/*.vsix $VSCODE_SETTINGS_DIR
 RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
 
 # Delta for git
@@ -58,10 +58,11 @@ WORKDIR $TEMP_DELTA_DIR
 RUN curl -O -fsSL https://github.com/dandavison/delta/releases/download/0.17.0/$DELTA_DEB
 RUN dpkg -i $DELTA_DEB
 
+# Final setup
+COPY src/settings.dev.json $VSCODE_SETTINGS_DIR/settings.json
+RUN chsh -s $(which zsh)
+WORKDIR /user
+
 # Cleanup
 RUN apt-get remove nodejs -y
-RUN rm -rf $TEMP_VSCODE_DIR/*
 RUN rm -rf $TEMP_DELTA_DIR
-
-# Final setup
-COPY src/settings.dev.json $TEMP_VSCODE_DIR/settings.json
