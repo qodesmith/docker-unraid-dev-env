@@ -14,7 +14,8 @@ RUN apt-get update && \
     unzip \
     zsh \
     sudo \
-    git
+    git \
+    ssh
 
 # Bun
 ENV BUN_INSTALL=/usr/local
