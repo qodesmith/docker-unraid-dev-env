@@ -32,3 +32,10 @@ to locally test out changes to that plugin without having to push the changes
 to Github first. The script will build that plugin locally and copy the
 resulting `.vsix` file to the Docker container. The `build:local` script clones
 the repo from Github.
+
+## Expected Paths
+
+| Path                         | Description                                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| `/user`                      | A bind-mount directory pointing to all-the-things on the Unraid server.                           |
+| `/user/dev_setup/.gitconfig` | Location for the `.gitconfig` file on the Unraid server. Git will initialize with these settings. |
