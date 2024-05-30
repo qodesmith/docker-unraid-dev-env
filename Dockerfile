@@ -38,14 +38,26 @@ ARG SETTINGS_PLUGIN_URL="https://github.com/qodesmith/openvscode-server-settings
 ARG SETTINGS_PLUGIN_DIR="openvscode-server-settings"
 ARG OUTRUN_URL="https://github.com/qodesmith/outrun-meets-synthwave.git"
 ARG OUTRUN_DIR="outrun-meets-synthwave"
+ARG COPY_FILENAME_URL="https://github.com/qodesmith/vscode-copy-filename.git"
+ARG COPY_FILENAME_DIR="vscode-copy-filename"
 ARG OPENVSCODE_SERVER_ROOT="/home/.openvscode-server"
 ARG OPENVSCODE="${OPENVSCODE_SERVER_ROOT}/bin/openvscode-server"
 
-# outrun-meets-synthwave (theme)
+# Create a directory to manually clone repos for extensions.
 RUN mkdir $VSCODE_SETTINGS_DIR
+
+# outrun-meets-synthwave (theme)
 WORKDIR $VSCODE_SETTINGS_DIR
 RUN git clone $OUTRUN_URL
 WORKDIR $VSCODE_SETTINGS_DIR/$OUTRUN_DIR
+RUN bun install
+RUN bunx @vscode/vsce package --skip-license
+RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
+
+# vscode-copy-filename (extension)
+WORKDIR $VSCODE_SETTINGS_DIR
+RUN git clone $COPY_FILENAME_URL
+WORKDIR $VSCODE_SETTINGS_DIR/$COPY_FILENAME_DIR
 RUN bun install
 RUN bunx @vscode/vsce package --skip-license
 RUN $OPENVSCODE --install-extension $(ls *.vsix | head -n 1)
@@ -86,3 +98,6 @@ WORKDIR /user
 # Cleanup
 RUN apt-get remove nodejs -y
 RUN rm -rf $TEMP_DELTA_DIR
+RUN rm -rf $VSCODE_SETTINGS_DIR/$OUTRUN_DIR
+RUN rm -rf $VSCODE_SETTINGS_DIR/$SETTINGS_PLUGIN_DIR
+RUN rm -rf $VSCODE_SETTINGS_DIR/$COPY_FILENAME_DIR
