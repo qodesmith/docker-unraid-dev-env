@@ -39,3 +39,7 @@ the repo from Github.
 | ---------------------------- | ------------------------------------------------------------------------------------------------- |
 | `/user`                      | A bind-mount directory pointing to all-the-things on the Unraid server.                           |
 | `/user/dev_setup/.gitconfig` | Location for the `.gitconfig` file on the Unraid server. Git will initialize with these settings. |
+
+Paths are simply set up by editing the container settings in Unraid and adding a
+path to the config. VS Code can open that folder through its UI or by ussing a
+query param: `<url>/?folder=/my-folder`
