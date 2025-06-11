@@ -1,5 +1,5 @@
 # VS Code in the browser!
-FROM gitpod/openvscode-server:latest as base
+FROM gitpod/openvscode-server:latest AS base
 
 # Set the user to root so we don't have permission errors to do the things.
 USER root
